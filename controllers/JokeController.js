@@ -37,23 +37,14 @@ class JokeController {
 
         console.log(randomJoke);
 
-        var responseMessage = "";
-
-
         //find a joke wit the same number in the data base
         return JokeModel.findOne({ jokeID: randomJoke }).then(
             joke => {
-                responseMessage = joke.jokeMessage;
-                //console.log(responseMessage);
-                return responseMessage;
+                console.log(joke);
+                return joke.jokeMessage;
             }
         );
 
-    }
-    static async print(){
-
-       // console.log(await JokeController.getJoke());
-        return await JokeController.getJoke();
     }
 
 

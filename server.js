@@ -45,13 +45,14 @@ app.get("/victorbot", function (req, res) {
 });
 
 //creating an endpoint that enable the bot to receive messages from Victor
-app.post('/victorbot', function (req, res) {
+app.post('/victorbot', async function (req, res) {
 
     // console.log('The post method is being called!');
     // console.log(req.body);
     // console.log(JSON.stringify(req.body));
 
     var messaging_events = req.body.entry[0].messaging;
+    
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
@@ -62,7 +63,7 @@ app.post('/victorbot', function (req, res) {
             var text = event.message.text;
 
             //MessegeController.sendTextMessage(sender, text + ". I'm for you,Victor!");
-            var responseMessage=JokeController.getJoke();
+            var responseMessage= await JokeController.getJoke();
             MessegeController.sendTextMessage(sender, responseMessage);
 
 
@@ -81,8 +82,17 @@ app.post('/victorbot', function (req, res) {
 
 //Setting up weekaly checkins
 setInterval(MessegeController.weeklyCheckout, 604800000);
-var test=JokeController.print();
-console.log(test);
+
+async function print(){
+    var responseMessage= await JokeController.getJoke();
+    console.log(responseMessage);
+
+}
+// JokeController.getJoke().then(response=> {
+//     console.log(response)
+// });
+
+print();
 //=====================================================================
 //seting up the listening port of the app with:
 db(() => {
