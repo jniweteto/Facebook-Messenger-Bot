@@ -1,0 +1,9 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "messaging_type": "RESPONSE",
+  "recipient": {
+    "id": "102228931542127"
+  },
+  "message": {
+    "text": "Hello, Victor! My names is Justin and I would like to share some great news with you. Please type START to receive the news."
+  }
+}' "https://graph.facebook.com/v7.0/me/messages?access_token= "
