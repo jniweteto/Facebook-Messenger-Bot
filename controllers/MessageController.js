@@ -2,9 +2,10 @@
 const request = require('request')
 const TOKEN = require('../configs/tokens')
 const token = TOKEN.tokens.userToken;
+const pageToken = TOKEN.tokens.pageToken;
 
 const ALERT = require('../utils/constantMessage')
-const chek_in = ALERT.MESSAGE.weeklyCheckout;
+const chek_in = ALERT.MESSAGE.checkin;
 
 const UserModel = require('../models/UserModel')
 
@@ -39,14 +40,33 @@ class MessageController {
 
     static async weeklyCheckout() {
 
-        var checkMessage = chek_in;
-
         UserModel.find().exec((err, users) => {
             if (err)
                 console.log("There was an error while loading users " + err);
 
             users.forEach(user => {
-                MessageController.sendTextMessage(user.userID, checkMessage);
+                // Get user's first name from the User Profile API
+                // and include it in the weekly check message. This may also be hardcoded as "Victor" for this bot.
+                request({
+                    url: "https://graph.facebook.com/v7.0/" + user.userID,
+                    qs: {
+                        access_token: pageToken,
+                        fields: "first_name"
+                    },
+                    method: "GET"
+                }, function (error, response, body) {
+                    var checkMessage = "";
+                    if (error) {
+                        console.log("Error getting user's name: " + error);
+                    } else {
+                        var bodyObj = JSON.parse(body);
+                        name = bodyObj.first_name;
+                        checkMessage = "Hi " + name + ", " + chek_in;
+                    }
+
+                    MessageController.sendTextMessage(user.userID, checkMessage);
+                });
+
             });
 
         });
