@@ -47,9 +47,9 @@ app.get("/victorbot", function (req, res) {
 //creating an endpoint that enable the bot to receive messages from Victor
 app.post('/victorbot', async function (req, res) {
 
-    // console.log('The post method is being called!');
-    // console.log(req.body);
-    // console.log(JSON.stringify(req.body));
+    console.log('The post method is being called!');
+    console.log(req.body);
+    console.log(JSON.stringify(req.body));
 
     var messaging_events = req.body.entry[0].messaging;
     
@@ -83,16 +83,16 @@ app.post('/victorbot', async function (req, res) {
 //Setting up weekaly checkins
 setInterval(MessegeController.weeklyCheckout, 604800000);
 
-async function print(){
-    var responseMessage= await JokeController.getJoke();
-    console.log(responseMessage);
+// async function print(){
+//     var responseMessage= await JokeController.getJoke();
+//     console.log(responseMessage);
 
-}
+// }
 // JokeController.getJoke().then(response=> {
 //     console.log(response)
 // });
 
-print();
+// print();
 //=====================================================================
 //seting up the listening port of the app with:
 db(() => {
