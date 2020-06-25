@@ -19,7 +19,7 @@ class MessageController {
         request({
             url: 'https://graph.facebook.com/v7.0/me/messages',
             qs: {
-                access_token: token
+                access_token: pageToken
             },
             method: 'POST',
             json: {
@@ -60,7 +60,7 @@ class MessageController {
                         console.log("Error getting user's name: " + error);
                     } else {
                         var bodyObj = JSON.parse(body);
-                        name = bodyObj.first_name;
+                       var name = bodyObj.first_name;
                         checkMessage = "Hi " + name + ", " + chek_in;
                     }
 
