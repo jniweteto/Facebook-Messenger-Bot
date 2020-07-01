@@ -8,6 +8,8 @@ const MessegeController = require('./controllers/MessageController')
 const JokeController = require('./controllers/JokeController')
 const UserController = require('./controllers/UserController')
 
+const SmallTalk = require('./utils/SmallTalk')
+
 //importing other middleware libraries and modules that will help to use express and handle different operations in the app
 var cors = require('cors');
 var bodyParser = require('body-parser')
@@ -39,7 +41,7 @@ app.get("/victorbot", function (req, res) {
     }
     else {
         console.error("Verification error, wrong token!");
-        console.log(req.query["hub.verify_token"],'\n',token);
+        console.log(req.query["hub.verify_token"], '\n', token);
         res.sendStatus(403);
     }
 });
@@ -47,25 +49,23 @@ app.get("/victorbot", function (req, res) {
 //creating an endpoint that enable the bot to receive messages from Victor
 app.post('/victorbot', async function (req, res) {
 
-    // console.log('The post method is being called!');
+    console.log('The post method is being called!');
     // console.log(req.body);
     // console.log(JSON.stringify(req.body));
 
     var messaging_events = req.body.entry[0].messaging;
-    
+
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
         if (event.message && event.message.text) {
 
             //his is the response message to the user. it will be a message from the database that stores jokes.
-
+            var responseMessage ="";
             var text = event.message.text;
+            responseMessage = await SmallTalk.match(text);
 
-            //MessegeController.sendTextMessage(sender, text + ". I'm for you,Victor!");
-            var responseMessage= await JokeController.getJoke();
             MessegeController.sendTextMessage(sender, responseMessage);
-
 
             /* We also need to check if the user has been contating us before or not. This is to keep track of user
             to that we don't miss a new user. We should also avoid additing an existing user. To avoid this,
@@ -76,12 +76,15 @@ app.post('/victorbot', async function (req, res) {
                 UserController.findUser(sender);
 
         }
+
     }
     res.sendStatus(200);
 });
 
 //Setting up weekaly checkins
 setInterval(MessegeController.weeklyCheckout, 10000000);
+
+SmallTalk.match("Comment ca va?").then(value => { console.log(value) });
 
 
 //=====================================================================

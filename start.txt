@@ -6,4 +6,4 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "message": {
     "text": "Hello, Victor! My names is Justin and I would like to share some great news with you. Please type START to receive the news."
   }
-}' "https://graph.facebook.com/v7.0/me/messages?access_token= "
+}' "https://graph.facebook.com/v7.0/me/messages?access_token=EAAIiA7iacfoBAC6ZBzxCdZBA4AvZCUUNkgC9zLEgZAGiwg2nqmZA1G5waCZCflQXPxKLpA0WVDNiZBkt8rl7Lyp89gwkjjuDgRhpqYcLvwIdbhAOyZA9SRoAmvHwPG3bAHoIjG8WfFuY6UkWiPrWyeq1uolLHMKFha7KMOo7cIVEbwZDZD"
