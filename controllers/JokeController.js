@@ -32,15 +32,16 @@ class JokeController {
     static async getJoke() {
 
 
+        //getting a rond joke from Jokes database
         var range = await JokeController.countJokes();
         var randomJoke = Math.floor(Math.random() * range);
 
-        console.log(randomJoke);
+        //console.log(randomJoke);
 
-        //find a joke wit the same number in the data base
+        //find a joke with the same number in the database
         return JokeModel.findOne({ jokeID: randomJoke }).then(
             joke => {
-                console.log(joke);
+                //console.log(joke);
                 return joke.jokeMessage;
             }
         );
