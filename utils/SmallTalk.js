@@ -4,17 +4,21 @@ const HashMap = require('hashmap');
 
 class SmallTalk {
 
+    //This function is being used to create a simple conversation between the user and the bot
     static async sampleTalk() {
 
+        //creating a conversation
         var map = new HashMap();
-        map.set("bonjour", "Bonjour");
+        map.set("bonjour", "Bonjour, Comment allez-vous?");
+        map.set("ca va bien", "Parfait! Comment puis-je vous aider?");
+        map.set("bien", "Parfait! Comment puis-je vous aider?");
         map.set("bonsoir", "Bonsoir");
         map.set("au revoir", "Au revoir, Merci!");
         map.set("merci", "Pas de probleme.");
         map.set("bye", "Bye bye! A bientont!");
         map.set("bye bye", "Bye! A bientont!");
         map.set("merci bea", "Parfait. Pas de probleme.");
-        map.set("salut", "Salut!");
+        map.set("salut", "Salut, comment ca va?");
         map.set("bonne jour", "Merci beacoup, et vous aussi!");
         map.set("bonne soir", "Merci beacoup, et vous aussi!");
         map.set("bonne apr", "Bonne apres midi. Comment allez vous?");
@@ -23,28 +27,31 @@ class SmallTalk {
         map.set("ca va", "Ca va bein merci! Et vous?");
         map.set("comment allez-vous", "Ca va bein merci! Et vous?");
         map.set("comment allez vous", "Ca va bein merci! Et vous?");
-    
 
-
-        //console.log(map);
 
         return map;
     }
 
     static async match(str) {
+        //converting the user input to lowercase to compare it with information in our created conversation
         var text = str.toLowerCase();
+
+        //Getting the conversation
         var map = await SmallTalk.sampleTalk();
+
+        //Searching a conversation that includes the user input
 
         var promise = new Promise((resolve, reject) => {
 
             map.forEach((value, key) => {
+                //if we find a matching conversation, the bot will respond with an appropiate response from the dictionary.
                 if (text.includes(key)) {
-                    console.log("Sucess! There is match");
+                    //console.log("Sucess! There is match");
                     resolve(value);
 
-                } 
+                }
             })
-            console.log("There is no match, pick a random response")
+            //console.log("There is no match, pick a random response")
             resolve(JokeController.getJoke());
         });
 
